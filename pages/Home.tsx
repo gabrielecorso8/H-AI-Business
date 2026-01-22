@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Code, Database, Brain, Layers, Zap, Lock, Eye, Book, GitBranch, FlaskConical } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Code, Database, Brain, Layers, Zap, Lock, Eye, Book, GitBranch, FlaskConical, Terminal, ShieldCheck } from 'lucide-react';
 import { projects } from '../data/projects';
 
 export const Home: React.FC = () => {
@@ -66,53 +66,66 @@ export const Home: React.FC = () => {
 
             <div className="grid lg:grid-cols-2 gap-12">
               
-              {/* PROTOTYPE 1: GEM */}
-              <div className="relative group rounded-2xl bg-slate-900 border border-slate-800 p-8 hover:border-primary-500/50 transition-all duration-300">
+              {/* PROTOTYPE 1: GEM (Prompt Engineer) */}
+              <div className="relative group rounded-2xl bg-slate-900 border border-slate-800 p-8 hover:border-blue-500/50 transition-all duration-300">
                 <div className="absolute top-0 right-0 p-4 opacity-50">
-                  <div className="w-24 h-24 bg-primary-500/20 blur-3xl rounded-full"></div>
+                  <div className="w-24 h-24 bg-blue-500/10 blur-3xl rounded-full"></div>
                 </div>
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="p-3 bg-slate-800 rounded-lg text-primary-400 border border-slate-700 shadow-inner">
-                    <Book size={24} />
+                  <div className="p-3 bg-slate-800 rounded-lg text-blue-400 border border-slate-700 shadow-inner">
+                    <Terminal size={24} />
                   </div>
-                  <h3 className="text-2xl font-bold font-mono">GEM</h3>
-                  <span className="px-2 py-0.5 bg-primary-900/50 text-primary-300 text-[10px] font-bold uppercase rounded border border-primary-700">Garante Etico Macchina</span>
+                  <div>
+                    <h3 className="text-2xl font-bold font-mono">GEM</h3>
+                    <p className="text-xs text-blue-400 uppercase tracking-wider font-semibold">Advanced Prompt Architect</p>
+                  </div>
                 </div>
-                <p className="text-slate-400 mb-6 leading-relaxed">
-                  Un modulo di validazione RAG (Retrieval-Augmented Generation) che utilizza il contenuto integrale del libro <em>"H-AI: Human Actions with AI"</em> come kernel etico. GEM interviene prima dell'output finale di qualsiasi modello, verificando che l'azione suggerita non diminuisca l'agenzia umana.
+                <p className="text-slate-400 mb-6 leading-relaxed text-sm">
+                  Un motore di meta-prompting che ingloba dinamicamente le migliori metodologie di "Chain-of-Thought" e le librerie di istruzioni open-source più avanzate (es. Fabric, AutoGPT). GEM non si limita a interrogare il modello, ma struttura un'architettura logica ottimizzata per task complessi.
                 </p>
-                <div className="bg-black/50 rounded-lg p-4 font-mono text-xs text-emerald-400 border-l-2 border-emerald-500 mb-6">
-                  {`> System: Loading "H-AI.pdf" context...`} <br/>
-                  {`> Kernel: Ethical check active.`} <br/>
-                  {`> Status: Ready for alignment.`}
+                <div className="mb-6">
+                  <h4 className="text-xs font-bold text-white uppercase mb-2">Applicazioni Aziendali:</h4>
+                  <ul className="text-sm text-slate-400 space-y-1">
+                    <li className="flex items-start"><span className="text-blue-500 mr-2">▹</span> Standardizzazione della Code Review automatizzata.</li>
+                    <li className="flex items-start"><span className="text-blue-500 mr-2">▹</span> Generazione di documentazione tecnica priva di ambiguità.</li>
+                    <li className="flex items-start"><span className="text-blue-500 mr-2">▹</span> Ottimizzazione dei costi API tramite token reduction intelligente.</li>
+                  </ul>
                 </div>
-                <button className="w-full py-3 rounded-lg border border-slate-700 hover:bg-primary-600 hover:border-primary-600 hover:text-white transition-all text-slate-300 font-medium text-sm flex justify-center items-center">
-                  Avvia Simulazione <Zap size={14} className="ml-2" />
+                <button className="w-full py-3 rounded-lg border border-slate-700 hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all text-slate-300 font-medium text-sm flex justify-center items-center group-hover:shadow-lg hover:shadow-blue-500/20">
+                  Deploy Prompt Engine <Zap size={14} className="ml-2" />
                 </button>
               </div>
 
-              {/* PROTOTYPE 2: H-GPT */}
-              <div className="relative group rounded-2xl bg-slate-900 border border-slate-800 p-8 hover:border-purple-500/50 transition-all duration-300">
+              {/* PROTOTYPE 2: ETHICAL PROMPT (H-AI Context) */}
+              <div className="relative group rounded-2xl bg-slate-900 border border-slate-800 p-8 hover:border-emerald-500/50 transition-all duration-300">
                 <div className="absolute top-0 right-0 p-4 opacity-50">
-                  <div className="w-24 h-24 bg-purple-500/20 blur-3xl rounded-full"></div>
+                  <div className="w-24 h-24 bg-emerald-500/10 blur-3xl rounded-full"></div>
                 </div>
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="p-3 bg-slate-800 rounded-lg text-purple-400 border border-slate-700 shadow-inner">
-                    <Brain size={24} />
+                  <div className="p-3 bg-slate-800 rounded-lg text-emerald-400 border border-slate-700 shadow-inner">
+                    <ShieldCheck size={24} />
                   </div>
-                  <h3 className="text-2xl font-bold font-mono">H-GPT</h3>
-                  <span className="px-2 py-0.5 bg-purple-900/50 text-purple-300 text-[10px] font-bold uppercase rounded border border-purple-700">Human Action Tasker</span>
+                  <div>
+                    <h3 className="text-2xl font-bold font-mono">Ethical Prompt</h3>
+                    <p className="text-xs text-emerald-400 uppercase tracking-wider font-semibold">H-AI Context Injection</p>
+                  </div>
                 </div>
-                <p className="text-slate-400 mb-6 leading-relaxed">
-                  Un agente operativo pre-addestrato per flussi di lavoro ad alta collaborazione. A differenza dei GPT standard, H-GPT è progettato per fermarsi intenzionalmente quando rileva decisioni ambigue, richiedendo l'intervento umano ("Human-in-the-loop") invece di allucinare una risposta.
+                <p className="text-slate-400 mb-6 leading-relaxed text-sm">
+                  Un sistema di "Context Injection" che allega il manifesto del libro <em>H-AI</em> come layer cognitivo obbligatorio. Questo prototipo forza l'AI a valutare ogni risposta attraverso la lente dell'agenzia umana, garantendo uno sviluppo etico e consapevole.
                 </p>
-                <div className="bg-black/50 rounded-lg p-4 font-mono text-xs text-purple-400 border-l-2 border-purple-500 mb-6">
-                  {`> Task: Complex decision detected.`} <br/>
-                  {`> Action: Pause execution.`} <br/>
-                  {`> Request: Human override required.`}
+                <div className="mb-6 bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                  <h4 className="text-xs font-bold text-white uppercase mb-2 flex items-center">
+                    <Book size={12} className="mr-2" /> Impatto del Contesto H-AI:
+                  </h4>
+                  <p className="text-xs text-slate-300 leading-relaxed mb-2">
+                    <strong className="text-emerald-400">In Azienda:</strong> Previene la "deresponsabilizzazione algoritmica", assicurando che l'AI rimanga uno strumento di supporto e non un decisore opaco.
+                  </p>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    <strong className="text-emerald-400">Vita Quotidiana:</strong> Combatte l'atrofia cognitiva, stimolando l'utente a mantenere il pensiero critico attivo durante l'interazione con la macchina.
+                  </p>
                 </div>
-                <button className="w-full py-3 rounded-lg border border-slate-700 hover:bg-purple-600 hover:border-purple-600 hover:text-white transition-all text-slate-300 font-medium text-sm flex justify-center items-center">
-                  Richiedi Accesso API <Lock size={14} className="ml-2" />
+                <button className="w-full py-3 rounded-lg border border-slate-700 hover:bg-emerald-600 hover:border-emerald-600 hover:text-white transition-all text-slate-300 font-medium text-sm flex justify-center items-center group-hover:shadow-lg hover:shadow-emerald-500/20">
+                  Genera con Etica H-AI <Lock size={14} className="ml-2" />
                 </button>
               </div>
 
