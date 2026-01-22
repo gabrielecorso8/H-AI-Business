@@ -6,6 +6,8 @@ import { projects } from '../data/projects';
 export const Home: React.FC = () => {
   // 0: Prototypes (Left), 1: Home (Center), 2: Development (Right)
   const [activeSlide, setActiveSlide] = useState(1);
+  const [scrollY, setScrollY] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
   const featuredProjects = projects.slice(0, 3);
 
   // Helper to change slide
@@ -13,6 +15,18 @@ export const Home: React.FC = () => {
     setActiveSlide(index);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    setIsMounted(true);
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <div className="relative overflow-hidden w-full bg-slate-50">
@@ -139,7 +153,14 @@ export const Home: React.FC = () => {
           <div className="space-y-20 pb-20">
             {/* Hero Section */}
             <section className="relative bg-slate-900 text-white overflow-hidden min-h-[80vh] flex items-center justify-center">
-              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-10"></div>
+              {/* Parallax Background */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center opacity-10 transition-transform duration-75 ease-out will-change-transform"
+                style={{ 
+                  backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')",
+                  transform: `translateY(${scrollY * 0.5}px)`
+                }}
+              ></div>
               
               {/* Side Nav Triggers (Desktop) */}
               <div 
@@ -162,28 +183,34 @@ export const Home: React.FC = () => {
               </div>
 
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-900/30 border border-primary-700/50 text-primary-300 text-xs font-semibold tracking-wide uppercase mb-8 backdrop-blur-sm">
-                  <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
-                  <span>System v2.0 Live</span>
+                <div className={`transition-all duration-1000 ease-out transform ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-900/30 border border-primary-700/50 text-primary-300 text-xs font-semibold tracking-wide uppercase mb-8 backdrop-blur-sm">
+                    <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
+                    <span>System v2.0 Live</span>
+                  </div>
+                  <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-none mb-8">
+                    Human Actions <br/>
+                    <span className="text-slate-500">with</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">Artificial Intelligence</span>
+                  </h1>
                 </div>
-                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-none mb-8">
-                  Human Actions <br/>
-                  <span className="text-slate-500">with</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">Artificial Intelligence</span>
-                </h1>
-                <p className="text-xl md:text-2xl text-slate-300 font-light mb-10 leading-relaxed max-w-2xl mx-auto">
-                  "Non dobbiamo temere le macchine che pensano. <br/>
-                  <span className="text-white font-medium">Dobbiamo temere di smettere di pensare con loro.</span>"
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/projects" className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-full text-slate-900 bg-white hover:bg-slate-200 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                    Esplora Archivio <ArrowRight size={18} className="ml-2" />
-                  </Link>
-                  <button 
-                    onClick={() => goToSlide(0)}
-                    className="inline-flex items-center justify-center px-8 py-4 border border-slate-600 text-base font-medium rounded-full text-white hover:bg-slate-800 transition-all"
-                  >
-                    Vedi Prototipi <FlaskConical size={18} className="ml-2" />
-                  </button>
+                
+                <div className={`transition-all duration-1000 delay-300 ease-out transform ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  <p className="text-xl md:text-2xl text-slate-300 font-light mb-10 leading-relaxed max-w-2xl mx-auto">
+                    "Non dobbiamo temere le macchine che pensano. <br/>
+                    <span className="text-white font-medium">Dobbiamo temere di smettere di pensare con loro.</span>"
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Link to="/projects" className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-full text-slate-900 bg-white hover:bg-slate-200 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                      Esplora Archivio <ArrowRight size={18} className="ml-2" />
+                    </Link>
+                    <button 
+                      onClick={() => goToSlide(0)}
+                      className="inline-flex items-center justify-center px-8 py-4 border border-slate-600 text-base font-medium rounded-full text-white hover:bg-slate-800 transition-all"
+                    >
+                      Vedi Prototipi <FlaskConical size={18} className="ml-2" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </section>
