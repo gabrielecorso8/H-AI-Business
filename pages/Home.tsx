@@ -1,116 +1,262 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Code, Database, Brain, Layers } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Code, Database, Brain, Layers, Zap, Lock, Eye, Book, GitBranch, FlaskConical } from 'lucide-react';
 import { projects } from '../data/projects';
 
 export const Home: React.FC = () => {
+  // 0: Prototypes (Left), 1: Home (Center), 2: Development (Right)
+  const [activeSlide, setActiveSlide] = useState(1);
   const featuredProjects = projects.slice(0, 3);
 
+  // Helper to change slide
+  const goToSlide = (index: number) => {
+    setActiveSlide(index);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <div className="space-y-20 pb-20">
-      {/* Hero Section */}
-      <section className="relative bg-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-10"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 relative z-10">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-900/30 border border-primary-700/50 text-primary-300 text-xs font-semibold tracking-wide uppercase mb-6">
-              <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
-              <span>Edizione 2025</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-              Human Actions <br/>
-              <span className="text-slate-400">with</span> Artificial Intelligence
-            </h1>
-            <p className="text-xl md:text-2xl text-slate-300 font-light mb-8 leading-relaxed max-w-2xl">
-              "Non dobbiamo temere le macchine che pensano. <br/>
-              <span className="text-white font-medium">Dobbiamo temere di smettere di pensare con loro.</span>"
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/projects" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-slate-900 bg-white hover:bg-slate-100 transition-all">
-                Vedi le Azioni <ArrowRight size={18} className="ml-2" />
-              </Link>
-              <Link to="/approach" className="inline-flex items-center justify-center px-6 py-3 border border-slate-600 text-base font-medium rounded-md text-white hover:bg-slate-800 transition-all">
-                Leggi la Filosofia
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div className="relative overflow-hidden w-full bg-slate-50">
+      
+      {/* Navigation Indicators (Fixed Bottom) */}
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 flex space-x-4 bg-slate-900/90 backdrop-blur-md p-2 rounded-full border border-slate-700 shadow-2xl">
+        <button 
+          onClick={() => goToSlide(0)} 
+          className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${activeSlide === 0 ? 'bg-primary-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+        >
+          <FlaskConical size={14} />
+          <span className="hidden sm:inline">LABS</span>
+        </button>
+        <button 
+          onClick={() => goToSlide(1)} 
+          className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${activeSlide === 1 ? 'bg-white text-slate-900 shadow-lg' : 'text-slate-400 hover:text-white'}`}
+        >
+          <Layers size={14} />
+          <span className="hidden sm:inline">CORE</span>
+        </button>
+        <button 
+          onClick={() => goToSlide(2)} 
+          className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${activeSlide === 2 ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+        >
+          <GitBranch size={14} />
+          <span className="hidden sm:inline">FORGE</span>
+        </button>
+      </div>
 
-      {/* Value Proposition - Adapted from Book Chapters */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            { icon: Layers, title: "Vita Quotidiana", desc: "Non una visione futuristica, ma una guida per il qui e ora. Dalle email alle scelte importanti." },
-            { icon: Brain, title: "Creatività Aumentata", desc: "L'AI non ruba la penna. Ti porge un altro foglio su cui scrivere." },
-            { icon: Database, title: "Decisione Collettiva", desc: "Usare la tecnologia non per controllare, ma per liberare e semplificare la burocrazia." },
-            { icon: Code, title: "Nuova Cittadinanza", desc: "Abitare lo spazio digitale con intenzione, non solo con consumo passivo." }
-          ].map((item, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center text-slate-900 mb-4">
-                <item.icon size={24} />
+      {/* Main Sliding Container */}
+      <div 
+        className="flex transition-transform duration-700 ease-in-out w-[300vw]"
+        style={{ transform: `translateX(-${activeSlide * 100}vw)` }}
+      >
+        
+        {/* --- PAGE 1: PROTOTYPES (LEFT) --- */}
+        <div className="w-[100vw] min-h-screen bg-slate-950 text-white overflow-y-auto pb-32">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div className="flex items-center justify-between mb-12 border-b border-slate-800 pb-8">
+              <div>
+                <div className="inline-flex items-center space-x-2 text-primary-400 font-mono text-xs mb-2">
+                  <span className="animate-pulse">●</span>
+                  <span>AMBIENTE SPERIMENTALE</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight">H-AI <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-emerald-400">LABS</span></h2>
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+              <button onClick={() => goToSlide(1)} className="group flex items-center text-slate-400 hover:text-white transition-colors text-sm">
+                Torna alla Home <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+              </button>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* Featured Projects */}
-      <section className="bg-slate-50 py-20 border-y border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
-            <div>
-              <h2 className="text-3xl font-bold text-slate-900">H-AI Applicata</h2>
-              <p className="mt-2 text-slate-600">Case study di alleanze tra intenzione umana ed efficienza della macchina.</p>
-            </div>
-            <Link to="/projects" className="hidden md:flex items-center text-primary-600 font-medium hover:text-primary-700">
-              Vedi tutte le azioni <ArrowRight size={16} className="ml-1" />
-            </Link>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {featuredProjects.map(project => (
-              <Link key={project.id} to={`/project/${project.id}`} className="group block bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-primary-500/50 hover:shadow-lg transition-all duration-300">
-                <div className="h-48 bg-slate-100 relative overflow-hidden flex items-center justify-center text-slate-300">
-                   <img 
-                     src={project.imageUrl} 
-                     alt={project.title}
-                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
-                   />
-                   <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors"></div>
-                   <div className="absolute top-4 left-4">
-                     <span className="inline-block px-2 py-1 text-xs font-semibold bg-white/90 text-slate-800 rounded shadow-sm border border-slate-200 backdrop-blur-sm">
-                       {project.domain}
-                     </span>
-                   </div>
+            <div className="grid lg:grid-cols-2 gap-12">
+              
+              {/* PROTOTYPE 1: GEM */}
+              <div className="relative group rounded-2xl bg-slate-900 border border-slate-800 p-8 hover:border-primary-500/50 transition-all duration-300">
+                <div className="absolute top-0 right-0 p-4 opacity-50">
+                  <div className="w-24 h-24 bg-primary-500/20 blur-3xl rounded-full"></div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-primary-600 transition-colors">{project.title}</h3>
-                  <p className="mt-2 text-sm text-slate-600 line-clamp-3">{project.problem_human}</p>
-                  <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                    <span>{project.stack.slice(0, 3).join(' • ')}</span>
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="p-3 bg-slate-800 rounded-lg text-primary-400 border border-slate-700 shadow-inner">
+                    <Book size={24} />
                   </div>
+                  <h3 className="text-2xl font-bold font-mono">GEM</h3>
+                  <span className="px-2 py-0.5 bg-primary-900/50 text-primary-300 text-[10px] font-bold uppercase rounded border border-primary-700">Garante Etico Macchina</span>
                 </div>
-              </Link>
-            ))}
-          </div>
-          
-          <div className="mt-8 text-center md:hidden">
-            <Link to="/projects" className="text-primary-600 font-medium">Vedi tutti i lavori &rarr;</Link>
+                <p className="text-slate-400 mb-6 leading-relaxed">
+                  Un modulo di validazione RAG (Retrieval-Augmented Generation) che utilizza il contenuto integrale del libro <em>"H-AI: Human Actions with AI"</em> come kernel etico. GEM interviene prima dell'output finale di qualsiasi modello, verificando che l'azione suggerita non diminuisca l'agenzia umana.
+                </p>
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-xs text-emerald-400 border-l-2 border-emerald-500 mb-6">
+                  {`> System: Loading "H-AI.pdf" context...`} <br/>
+                  {`> Kernel: Ethical check active.`} <br/>
+                  {`> Status: Ready for alignment.`}
+                </div>
+                <button className="w-full py-3 rounded-lg border border-slate-700 hover:bg-primary-600 hover:border-primary-600 hover:text-white transition-all text-slate-300 font-medium text-sm flex justify-center items-center">
+                  Avvia Simulazione <Zap size={14} className="ml-2" />
+                </button>
+              </div>
+
+              {/* PROTOTYPE 2: H-GPT */}
+              <div className="relative group rounded-2xl bg-slate-900 border border-slate-800 p-8 hover:border-purple-500/50 transition-all duration-300">
+                <div className="absolute top-0 right-0 p-4 opacity-50">
+                  <div className="w-24 h-24 bg-purple-500/20 blur-3xl rounded-full"></div>
+                </div>
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="p-3 bg-slate-800 rounded-lg text-purple-400 border border-slate-700 shadow-inner">
+                    <Brain size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold font-mono">H-GPT</h3>
+                  <span className="px-2 py-0.5 bg-purple-900/50 text-purple-300 text-[10px] font-bold uppercase rounded border border-purple-700">Human Action Tasker</span>
+                </div>
+                <p className="text-slate-400 mb-6 leading-relaxed">
+                  Un agente operativo pre-addestrato per flussi di lavoro ad alta collaborazione. A differenza dei GPT standard, H-GPT è progettato per fermarsi intenzionalmente quando rileva decisioni ambigue, richiedendo l'intervento umano ("Human-in-the-loop") invece di allucinare una risposta.
+                </p>
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-xs text-purple-400 border-l-2 border-purple-500 mb-6">
+                  {`> Task: Complex decision detected.`} <br/>
+                  {`> Action: Pause execution.`} <br/>
+                  {`> Request: Human override required.`}
+                </div>
+                <button className="w-full py-3 rounded-lg border border-slate-700 hover:bg-purple-600 hover:border-purple-600 hover:text-white transition-all text-slate-300 font-medium text-sm flex justify-center items-center">
+                  Richiedi Accesso API <Lock size={14} className="ml-2" />
+                </button>
+              </div>
+
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* Silent H-AI Statement / Quote from Book */}
-      <section className="max-w-4xl mx-auto px-4 text-center">
-        <blockquote className="text-2xl md:text-3xl font-serif italic text-slate-700 leading-relaxed">
-          "Non è l'efficienza che deve guidarci, ma la <span className="text-slate-900 not-italic font-semibold bg-yellow-100 px-1">coscienza</span>.<br/>
-          E nessuna intelligenza artificiale potrà mai sostituirla."
-          <footer className="mt-4 text-sm font-sans not-italic text-slate-500">— Gabriele Corso, H-AI</footer>
-        </blockquote>
-      </section>
+
+        {/* --- PAGE 2: HOME (CENTER) --- */}
+        <div className="w-[100vw] min-h-screen">
+          <div className="space-y-20 pb-20">
+            {/* Hero Section */}
+            <section className="relative bg-slate-900 text-white overflow-hidden min-h-[80vh] flex items-center justify-center">
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-10"></div>
+              
+              {/* Side Nav Triggers (Desktop) */}
+              <div 
+                onClick={() => goToSlide(0)} 
+                className="absolute left-0 top-0 bottom-0 w-24 hover:bg-gradient-to-r from-slate-800/50 to-transparent cursor-pointer hidden lg:flex items-center justify-start pl-4 group transition-all z-20"
+              >
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center text-slate-400">
+                  <ArrowLeft size={32} />
+                  <span className="text-xs font-mono mt-2 tracking-widest uppercase rotate-90 origin-center translate-y-8">Labs</span>
+                </div>
+              </div>
+              <div 
+                onClick={() => goToSlide(2)} 
+                className="absolute right-0 top-0 bottom-0 w-24 hover:bg-gradient-to-l from-slate-800/50 to-transparent cursor-pointer hidden lg:flex items-center justify-end pr-4 group transition-all z-20"
+              >
+                 <div className="opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center text-slate-400">
+                  <ArrowRight size={32} />
+                  <span className="text-xs font-mono mt-2 tracking-widest uppercase -rotate-90 origin-center translate-y-8">Forge</span>
+                </div>
+              </div>
+
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-900/30 border border-primary-700/50 text-primary-300 text-xs font-semibold tracking-wide uppercase mb-8 backdrop-blur-sm">
+                  <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
+                  <span>System v2.0 Live</span>
+                </div>
+                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-none mb-8">
+                  Human Actions <br/>
+                  <span className="text-slate-500">with</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">Artificial Intelligence</span>
+                </h1>
+                <p className="text-xl md:text-2xl text-slate-300 font-light mb-10 leading-relaxed max-w-2xl mx-auto">
+                  "Non dobbiamo temere le macchine che pensano. <br/>
+                  <span className="text-white font-medium">Dobbiamo temere di smettere di pensare con loro.</span>"
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link to="/projects" className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-full text-slate-900 bg-white hover:bg-slate-200 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Esplora Archivio <ArrowRight size={18} className="ml-2" />
+                  </Link>
+                  <button 
+                    onClick={() => goToSlide(0)}
+                    className="inline-flex items-center justify-center px-8 py-4 border border-slate-600 text-base font-medium rounded-full text-white hover:bg-slate-800 transition-all"
+                  >
+                    Vedi Prototipi <FlaskConical size={18} className="ml-2" />
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            {/* Featured Projects Preview */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-end mb-12">
+                <div>
+                  <h2 className="text-3xl font-bold text-slate-900">Ingegneria Applicata</h2>
+                  <p className="mt-2 text-slate-600">Sistemi reali che implementano la filosofia H-AI.</p>
+                </div>
+                <Link to="/projects" className="hidden md:flex items-center text-primary-600 font-medium hover:text-primary-700">
+                  Archivio Completo <ArrowRight size={16} className="ml-1" />
+                </Link>
+              </div>
+              
+              <div className="grid md:grid-cols-3 gap-8">
+                {featuredProjects.map(project => (
+                  <Link key={project.id} to={`/project/${project.id}`} className="group block bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-primary-500/50 hover:shadow-lg transition-all duration-300">
+                    <div className="h-48 bg-slate-100 relative overflow-hidden flex items-center justify-center text-slate-300">
+                      <img 
+                        src={project.imageUrl} 
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
+                      />
+                      <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors"></div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-primary-600 transition-colors">{project.title}</h3>
+                      <p className="mt-2 text-sm text-slate-600 line-clamp-3">{project.problem_human}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          </div>
+        </div>
+
+
+        {/* --- PAGE 3: DEVELOPMENT / FORGE (RIGHT) --- */}
+        <div className="w-[100vw] min-h-screen bg-slate-100 text-slate-900 overflow-y-auto pb-32">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div className="flex items-center justify-between mb-12 border-b border-slate-200 pb-8">
+              <button onClick={() => goToSlide(1)} className="group flex items-center text-slate-500 hover:text-slate-900 transition-colors text-sm">
+                 <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" /> Torna alla Home
+              </button>
+              <div className="text-right">
+                <div className="inline-flex items-center space-x-2 text-purple-600 font-mono text-xs mb-2">
+                  <span>ROADMAP 2026</span>
+                  <span className="animate-pulse">●</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900">H-AI <span className="text-transparent bg-clip-text bg-gradient-to-l from-purple-600 to-indigo-600">FORGE</span></h2>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                { title: "Neural City Interface", status: "Concept", desc: "Un layer civico per tradurre i dati urbani complessi in narrazioni accessibili per i cittadini.", icon: Database },
+                { title: "Bio-Ethical Firewall", status: "Alpha", desc: "Sistema di filtraggio hardware per impedire l'esecuzione di prompt non etici a livello di server locale.", icon: Lock },
+                { title: "Symbiotic IDE", status: "Planning", desc: "Ambiente di sviluppo che traccia lo stato di 'flow' del programmatore e adatta i suggerimenti AI per non interromperlo.", icon: Code },
+              ].map((item, idx) => (
+                <div key={idx} className="bg-white p-8 rounded-xl border border-dashed border-slate-300 opacity-75 hover:opacity-100 hover:border-purple-400 transition-all cursor-not-allowed">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="p-3 bg-slate-50 rounded-lg text-slate-500">
+                      <item.icon size={24} />
+                    </div>
+                    <span className="px-2 py-1 bg-slate-100 text-slate-500 text-xs font-mono rounded uppercase">{item.status}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+              
+              <div className="bg-gradient-to-br from-purple-600 to-indigo-700 p-8 rounded-xl text-white flex flex-col justify-center items-center text-center shadow-xl">
+                <Eye size={48} className="mb-4 opacity-80" />
+                <h3 className="text-2xl font-bold mb-2">Vuoi contribuire?</h3>
+                <p className="text-purple-100 text-sm mb-6">La forgia è aperta a nuove visioni.</p>
+                <Link to="/contact" className="px-6 py-2 bg-white text-purple-700 rounded-full font-bold text-sm hover:bg-purple-50 transition-colors">
+                  Proponi Concept
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 };
